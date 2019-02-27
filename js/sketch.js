@@ -1,3 +1,30 @@
+// Copyright (c) 2018 ml5
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
+/* ===
+ml5 Example
+Style Transfer Image Example using p5.js
+This uses a pre-trained model of The Great Wave off Kanagawa and Udnie (Young American Girl, The Dance)
+=== */
+
+var image_src;
+var model_src;
+var transferStyle; 
+//image change using select tag 
+$("#style-select").change(function () {
+    cur_value = $('option:selected', this).text();
+    console.log(cur_value);
+    image_src = "img/styles/" + cur_value + ".jpg";
+    model_src = "ckpts/"+cur_value;
+    console.log(image_src);
+    console.log(model_src);
+    $("#style-img").attr("src", image_src);
+    transferStyle = ml5.styleTransfer(model_src,modelLoaded);
+});
+//
+
 let inputImg;
 let statusMsg;
 let transferBtn;
@@ -5,49 +32,33 @@ let style1;
 let style2;
 
 function setup() {
-    noCanvas();
-    // Status Msg
-    statusMsg = select('#statusMsg');
+  //let myCanvas = createCanvas(600,400);
+  noCanvas();
+  // Get the input image
+  inputImg = select('#content-img');
 
-    // Get the input image
-    inputImg = select('#inputImg');
+  // Transfer Button
+  transferBtn = select('.transferBtn')
+  transferBtn.mousePressed(transferImages);
 
-    // Transfer Button
-    transferBtn = select('#transferBtn')
-    transferBtn.mousePressed(transferImages);
-
-    // Create two Style methods with different pre-trained models
-    style1 = ml5.styleTransfer('../ckpts/wave', modelLoaded);
-    style2 = ml5.styleTransfer('../ckpts/udnie', modelLoaded);
+  // Create two Style methods with different pre-trained models
+  style1 = ml5.styleTransfer(model_src, modelLoaded);
 }
 
 // A function to be called when the models have loaded
 function modelLoaded() {
-    // Check if both models are loaded
-    if (style1.ready && style2.ready) {
-        statusMsg.html('Ready!')
-    }
+  // Check if both models are loaded
+  if(style1.ready){
+    console.log('Ready!')
+  }
 }
 
 // Apply the transfer to both images!
 function transferImages() {
-    statusMsg.html('Applying Style Transfer...!');
+  console.log('Applying Style Transfer...!');
 
-    style1.transfer(inputImg, function (err, result) {
-        createImg(result.src).parent('styleA');
-    });
+  style1.transfer(inputImg, function(err, result) {
+    createImg(result.src).parent('style-img');
+  });
 
-    style2.transfer(inputImg, function (err, result) {
-        createImg(result.src).parent('styleB');
-    });
-
-    statusMsg.html('Done!');
 }
-
-//styletransfer image select
-
-$('.myitem').each(function () {
-    if ($(this).hasClass('selected')) {
-        $('#myImage').attr('src') = 'img/styles' + $(this).attr('id')[1] + '.jpg';
-    }
-}); 
