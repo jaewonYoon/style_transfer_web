@@ -1,4 +1,4 @@
-sdf<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -29,6 +29,13 @@ sdf<!DOCTYPE html>
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="css/landing-page.min.css" rel="stylesheet">
+
+    <style>
+        .model-img {
+          width: 250px;
+          height: 250px;
+        }
+    </style>
 </head>
 
 <body>
@@ -149,13 +156,12 @@ sdf<!DOCTYPE html>
     </section>
     <!-- Transfer section *Input* -->
 
-    </script>
     <section class="bg-light">
         <div class="tab-pane fade show active" id="stylize" role="tabpanel" aria-labelledby="stylize-tab">
             <div class="container">
                 <div class="row my-4">
                     <div class="col mx-5 my-4">
-                        <img id="content-img" class="centered" src="img/selfie.jpg" height=256></img>
+                        <img id="content-img" class="centered model-img" src="img/selfie.jpg"></img>
                         <br>
 
                         <br>
@@ -167,12 +173,13 @@ sdf<!DOCTYPE html>
                 <option value="diana">diana</option>
                 <option value="golden_gate">golden_gate</option>
                 <option value="beach">beach</option>
-                <option value="chicago" selected="selected">chicago</option>
+                <option value="chicago">chicago</option>
+                <option value="selfie" selected>selfie</option>
                 <option value="statue_of_liberty">statue_of_liberty</option>
               </select>
                     </div>
                     <div class="col mx-5 my-4">
-                        <img id="style-img" class="centered" crossorigin="anonymous" src="img/styles/wave.jpg" height=256></img>
+                        <img id="style-img" class="centered model-img" crossorigin="anonymous" src="img/styles/wave.jpg"></img>
                         <br>
                         <br>
                         <select id="style-select" class="centered custom-select myitem">
@@ -183,8 +190,8 @@ sdf<!DOCTYPE html>
                 <option value="helper">helper</option>
                 <option value="hongdo">hongdo</option>
                 <option value="oksu">oksu</option>
-                <option value="udnie">udnie</option>
-                <option value="oksu">wave</option>
+                <option value="udnie" selected>udnie</option>
+                <option value="wave">wave</option>
               </select>
 
                     </div>
@@ -192,7 +199,7 @@ sdf<!DOCTYPE html>
 
                 <div class="row my-4" style="padding: 0 30rem;" ); ">
                     
-                        <button class="transferBtn "><span>Challenge tranfer</span></button>
+                        <button class="transferBtn"><span>Challenge tranfer</span></button>
                     <div class="col-md-5 offset-md-3 ">
                     </div>
                 </div>
@@ -205,7 +212,7 @@ sdf<!DOCTYPE html>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css " rel="stylesheet " />
     <section class="bg-light ">
             <div class="output-container ">
-                <img class="outputImg " src="https://via.placeholder.com/256 " height="256 ">
+                <img class="outputImg model-img" src="https://via.placeholder.com/250 ">
             </div>
     </section>
     <!-- Testimonials -->
