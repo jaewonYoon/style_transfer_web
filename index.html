@@ -1,4 +1,4 @@
-sdf<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -149,15 +149,13 @@ sdf<!DOCTYPE html>
     </section>
     <!-- Transfer section *Input* -->
 
-    </script>
     <section class="bg-light">
         <div class="tab-pane fade show active" id="stylize" role="tabpanel" aria-labelledby="stylize-tab">
             <div class="container">
                 <div class="row my-4">
                     <div class="col mx-5 my-4">
-                        <img id="content-img" class="centered" src="img/selfie.jpg" height=256></img>
+                        <img id="content-img" class="centered model-img" src="" height="350" width="350"/>
                         <br>
-
                         <br>
                         <select id="content-select" class="centered custom-select">
                 <option value="" disabled>Select content</option>
@@ -166,13 +164,13 @@ sdf<!DOCTYPE html>
                 <option value="stata">stata</option>
                 <option value="diana">diana</option>
                 <option value="golden_gate">golden_gate</option>
-                <option value="beach">beach</option>
-                <option value="chicago" selected="selected">chicago</option>
+                <option value="selfie" selected>selfie</option>
+                <option value="chicago" >chicago</option>
                 <option value="statue_of_liberty">statue_of_liberty</option>
               </select>
                     </div>
                     <div class="col mx-5 my-4">
-                        <img id="style-img" class="centered" crossorigin="anonymous" src="img/styles/wave.jpg" height=256></img>
+                        <img id="style-img" class="centered model-img" crossorigin="anonymous" src="img/styles/wave.jpg" height="350" width="350" ></img>
                         <br>
                         <br>
                         <select id="style-select" class="centered custom-select myitem">
@@ -183,8 +181,8 @@ sdf<!DOCTYPE html>
                 <option value="helper">helper</option>
                 <option value="hongdo">hongdo</option>
                 <option value="oksu">oksu</option>
-                <option value="udnie">udnie</option>
-                <option value="oksu">wave</option>
+                <option value="udnie" selected>udnie</option>
+                <option value="wave">wave</option>
               </select>
 
                     </div>
@@ -192,7 +190,7 @@ sdf<!DOCTYPE html>
 
                 <div class="row my-4" style="padding: 0 30rem;" ); ">
                     
-                        <button class="transferBtn "><span>Challenge tranfer</span></button>
+                        <button class="transferBtn"><span>Challenge tranfer</span></button>
                     <div class="col-md-5 offset-md-3 ">
                     </div>
                 </div>
@@ -204,8 +202,8 @@ sdf<!DOCTYPE html>
     <!-- Transfer section *Output* -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css " rel="stylesheet " />
     <section class="bg-light ">
-            <div class="output-container ">
-                <img class="outputImg " src="https://via.placeholder.com/256 " height="256 ">
+            <div id="output-container ">
+                <img class="outputImg model-img" src="https://via.placeholder.com/350 ">
             </div>
     </section>
     <!-- Testimonials -->
@@ -222,9 +220,9 @@ sdf<!DOCTYPE html>
                 </div>
                 <div class="col-lg-4 ">
                     <div class="testimonial-item mx-auto mb-5 mb-lg-0 ">
-                        <img class="img-fluid rounded-circle mb-3 " src="img/testimonials-2.jpg " alt=" ">
-                        <h5>Fred S.</h5>
-                        <p class="font-weight-light mb-0 ">"Bootstrap is amazing. I 've been using it to create lots of super nice landing pages."</p>
+                        <img class="img-fluid rounded-circle mb-3 " src="img/dohyun.jpg " alt=" ">
+                        <h5>Dohyun Kim</h5>
+                        <p class="font-weight-light mb-0 ">"ml5.js is amazing. I 've been using it to create super nice ML website."</p>
                     </div>
                 </div>
                 <div class="col-lg-4">

@@ -140,6 +140,13 @@ input[type="file"] {
 .outputImg{
     display:block;
     margin-left: auto;
-    margin-right: auto;
+    margin-rightc: auto;
     
+}
+.model-img{
+    width:250px;
+    height:250px;
+}
+.content-select{
+    padding-top: 20px;
 }
