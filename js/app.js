@@ -43,18 +43,18 @@ app.post("/signup",function(req,res){
         url:"https://us20.api.mailchimp.com/3.0/lists/eedf70aa88",
         method: "POST",
         headers: {
-            "Authorization" : "21300492@handong.edu 69763f2be51c05fd2f4cdaba8249e645-us20"
+            "Authorization" : "21300492@handong.edu 594e723fbd4165a11a82a403db72d4d0-us20"
         },
         body: jsonData
     };
     request(options, function(error, response, body){
         if(error){
-            res.sendFile(__dirname +'/failure.html');
+            res.sendFile(path.join(__dirname,"../failure.html"));
         } else {
             if(response.statusCode===200){
-                res.sendFile(__dirname + '/success.html');
+                res.sendFile(path.join(__dirname,"../success.html"));
             }else {
-                res.sendFile(__dirname +'/failure.html');
+                res.sendFile(path.join(__dirname,"../failure.html"));
             }
         }
     });
@@ -71,7 +71,8 @@ app.listen(process.env.PORT || 3000, function(){
 });
 
 //apikey
-//69763f2be51c05fd2f4cdaba8249e645-us20
+//594e723fbd4165a11a82a403db72d4d0-us20
+//34c56262470f1348bd512ce1503de4d5-us20
 
 //unique id
 //eedf70aa88
