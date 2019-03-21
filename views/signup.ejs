@@ -38,14 +38,18 @@
 
 <body class="text-center">
     <form action="/signup" class="form-signin" method="post">
-        <img class="mb-4" src="/images/divercity.png" alt="" width="300" height="200">
+        <a href="/">
+        <img class="mb-4"  src="/images/divercity.png" alt="" width="300" height="200">
+        </a>
         <h1 class="h3 mb-3 font-weight-normal">Signup to request Styles</h1>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" name="fName" class="form-control top" placeholder="First name" required autofocus>
         <input type="text" name="lName" class="form-control middle" placeholder="Last name" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="text" name="image" class="form-control middle" placeholder="image url" alt="Let us know your taste of styles" autofocus>
-        <input type="email" name="email" class="form-control bottom" placeholder="Email address" required>
+        <input type="email" name="email" value="
+        <%=email_req%> 
+        " class="form-control bottom" placeholder="Email address" required>
         <div class="checkbox mb-3">
             <label>
       <input type="checkbox" value="remember-me"> Remember me
@@ -54,6 +58,7 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Me Up</button>
         <p class="mt-5 mb-3 text-muted">&copy; DiverCity 2019</p>
     </form>
+
 </body>
 
 </html>
