@@ -1,18 +1,20 @@
 <%- include("partials/aboutheader"); -%>
-<h1> <%=startingTitle%></h1> 
-<p>에 대한 토론게시판입니다.</p>
+    <h1>
+        <%=startingTitle%>
+    </h1>
+    <p>에 대한 토론게시판입니다.</p>
 
 
 
-<% posts.forEach(function(post){ %>
 
-    <h1><%=post.title%></h1>
+    <h1>
+        <%=post.title%>
+    </h1>
     <p>
         <%=post.content%>
     </p>
 
 
-    <% }) %>
     <footer class="footer-padding bg-light ">
             <div class="footer_choice">
                 <div class="footer_contents">
