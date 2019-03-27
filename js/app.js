@@ -1,5 +1,5 @@
 //jshint enversion: 6
-
+require('dotenv').config()
 //require module 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -90,24 +90,31 @@ app.post("/signup",function(req,res){
             }
         ]
     };
+    //sign up 페이지에서 mailchimp 사용을 위한 코드 
     let jsonData = JSON.stringify(data);
     let options={
         url:"https://us20.api.mailchimp.com/3.0/lists/eedf70aa88",
         method: "POST",
         headers: {
-            "Authorization" : "21300492@handong.edu 594e723fbd4165a11a82a403db72d4d0-us20"
+            "Authorization" : "21300492@handong.edu "+ process.env.API_KEY,
         },
         body: jsonData
     };
+    //sign up 페이지에서 성공과 실패를 구분하는 페이지 
     request(options, function(error, response, body){
         if(error){
             res.sendFile(path.join(__dirname,"../failure.html"));
         } else {
             if(response.statusCode===200){
-//                res.sendFile(path.join(__dirname,"../success.html"));
+    // res.sendFile로 응답해도 되나 ejs 사용을 위해 주석처리함                
+    // res.sendFile(path.join(__dirname,"../success.html"));
                 res.render("success");
             }else {
-//                res.sendFile(path.join(__dirname,"../failure.html"));
+    // res.sendFile로 응답해도 되나 ejs 사용을 위해 주석처리함                
+    // res.sendFile(path.join(__dirname,"../failure.html"));
+                res.render("success");
+    // res.sendFile로 응답해도 되나 ejs 사용을 위해 주석처리함                
+    // res.sendFile(path.join(__dirname,"../failure.html"));         
                 res.render("failure");
             }
         }
@@ -118,8 +125,8 @@ app.post("/signup",function(req,res){
 app.post("/failure", function(req,res){
     res.redirect("/");
 });
-////////routes for about.ejs
 
+////////routes for about 페이지 
 app.get("/about",function(req,res){
    console.log("test for print");
    Post.find({},function(err,foundItem){
@@ -145,6 +152,7 @@ app.get("/about",function(req,res){
       }
   });
 });
+//routes for dynamic route pages 
 app.get("/posts/:customListName",function(req,res){
    let customListName = req.params.customListName;
     customListName = _.lowerCase(customListName);
@@ -177,13 +185,13 @@ app.get("/posts/:customListName",function(req,res){
         }
     });
 });
-/////////routes for compose.ejs
 
+//routes for compose 페이지 
 app.get("/compose",function(req,res){
     res.render("compose");
 })
 app.post("/compose",function(req,res){
-   //remove static variable 
+//remove static variable 
 //  const post = {
 //    title: req.body.postTitle,
 //    content: req.body.postBody
@@ -223,8 +231,8 @@ var lodash_transpose = function(element){
     element =_.capitalize(element);
     return element;
 }
-//////////routes for masthead
 
+//routes for masthead
 app.post("/masthead",function(req,res){
     let email = req.body.email;
     console.log(email);
