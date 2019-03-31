@@ -1,5 +1,5 @@
 //jshint enversion: 6
-require('dotenv').config()
+require('dotenv').config();
 //require module 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -57,6 +57,12 @@ app.get("/",function(req,res){
    console.log("home directory is underway");
    res.render("home"); 
 });
+
+app.get("/webcam",function(req,res){
+    console.log("webcam directory is underway");
+    res.render("home2");
+});
+
 app.get("/pricing", function(req,res){
     res.sendFile(path.join(__dirname,"../pricing.html"));
 });
