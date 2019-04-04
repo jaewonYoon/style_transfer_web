@@ -59,7 +59,7 @@ mongoose.set("useCreateIndex", true);
 //database variable// 
 const postSchema = {
      title: String, 
-     content:String,
+     content:[],
 };
 //build userSchema used in signup
 const userSchema = new mongoose.Schema({
@@ -213,7 +213,11 @@ app.get("/logout", function(req, res){
 });
 //get in login page
 app.get("/",function(req,res){
-  res.render("login");
+    if(req.isAuthenticated()){
+      res.redirect('home');
+    } else{
+        res.render("login");
+    }
 });
 //post in login page
 app.post("/login", function(req,res){
@@ -347,63 +351,91 @@ app.post("/failure", function(req,res){
 
 ////////routes for about 페이지 
 app.get("/about",function(req,res){
+   console.log(req.user.id);
    console.log("test for print");
-   Post.find({},function(err,foundItem){
-      if(foundItem.length===0){
-          console.log("no data found."); 
-          
-          Post.insertMany(defaultItem,function(err){
-            if(!err){
-                console.log("data successfully added");
-            }else{
-                console.log(err);
-            }
-          });
-          
-          res.redirect('/about');
-          
+   User.findById(req.user.id, function(err, foundUser){
+      if(err){
+          console.log(err);
       } else{
-          console.log("data found."); 
-         res.render("about", {
-            startingTitle: "FAQ",
-            posts: foundItem,
-         }); 
+          if(foundUser){
+              console.log(foundUser.secret.length);
+              if(foundUser.secret.length===0){
+                  const secret ={
+                      title: "Information",
+                      content: ["등록된 질문이 없습니다.","hello world",]
+                  };
+                  const secret2 ={
+                      title: "Information",
+                      content: ["등록된 질문이 없습니다.","hello world",]
+                  };
+                  const secret3 =[secret, secret2,]; 
+                  console.log("no data found."); 
+                  res.render("about", {
+                     startingTitle: "FAQ",
+                     posts: secret3,
+                  }); 
+              }else{
+                  console.log("data found."); 
+                  res.render("about", {
+                     startingTitle: "FAQ",
+                     posts: foundUser.secret,
+                  }); 
+              }
+          }
       }
-  });
+   });
 });
+
 //routes for dynamic route pages 
 app.get("/posts/:customListName",function(req,res){
-   let customListName = req.params.customListName;
+    console.log(req.params);
+    let customListName = req.params.customListName;
     customListName = _.lowerCase(customListName);
     customListName = _.kebabCase(customListName);
     customListName = _.capitalize(customListName);
-    Post.find({title: customListName}, function(err,foundItem){
-        console.log(customListName);
-        if(foundItem.length===0){
-              console.log("Data Doesn't Exists!");
-        
-              res.render("post2",{
-                  startingTitle: customListName,
-                  post: {
-                      title:customListName,
-                      content: "현재 해당 주제에 대한 게시글이 없습니다! 첫번째 포스팅을 시작해보세요.",
-                  }
-              }); 
-//            생각해보니까 list가 필요가 없다. 
-//            list = new List({
-//                name: "default List",
-//                title: defaultItem,
-//            });
+    User.findOne({_id: req.user.id, "secret.title":customListName} , function(err, foundUser){
+        if(err){
+            console.log(err);
         }else{
-            console.log(foundItem);
-            console.log("data already Exists!"); 
-            res.render("post",{
-                startingTitle: customListName,
-                posts: foundItem,
-            });
+              const index = find_title(foundUser.secret,customListName);
+              console.log("foundUser.secret.content: ",foundUser);
+              res.render("post",
+                        {
+                  startingTitle:foundUser.secret[0].title,
+                  posts:foundUser.secret[index].content,      
+              });
         }
     });
-});
+});     
+        
+//        
+//    Post.find({title: customListName}, function(err,foundItem){
+//        console.log(customListName);
+//        if(foundItem.length===0){
+//              console.log("Data Doesn't Exists!");
+//        
+//              res.render("post2",{
+//                  startingTitle: customListName,
+//                  post: {
+//                      title:customListName,
+//                      content: "현재 해당 주제에 대한 게시글이 없습니다! 첫번째 포스팅을 시작해보세요.",
+//                  }
+//              }); 
+////            생각해보니까 list가 필요가 없다. 
+////            list = new List({
+////                name: "default List",
+////                title: defaultItem,
+////            });
+//        }else{
+//            console.log(foundItem);
+//            console.log("data already Exists!"); 
+//            res.render("post",{
+//                startingTitle: customListName,
+//                posts: foundItem,
+//            });
+//        }
+//    });
+
 
 //routes for compose 페이지 
 app.get("/compose",function(req,res){
@@ -416,14 +448,88 @@ app.post("/compose",function(req,res){
 //    title: req.body.postTitle,
 //    content: req.body.postBody
 //  };
-  console.log(lodash_transpose(req.body.postTitle));
-  const post = new Post({
-      title: lodash_transpose(req.body.postTitle),
-      content: req.body.postBody,
-  })
-//  posts.push(post);
-  post.save();
-  res.redirect("/about");
+    const lodashed_title = lodash_transpose(req.body.postTitle);
+//    'secret.title':lodashed_title
+    User.findOne({_id: req.user.id, "secret.title":lodashed_title} , function(err, foundUser){
+      if(err){
+          console.log(err);
+      } else{
+          console.log("foundUser: ",foundUser);
+          if(foundUser){
+              foundUser.secret[0].content.push(req.body.postBody);
+              foundUser.save();
+          }else{
+             User.findOne({_id:req.user.id},function(err,foundUser2){
+                 const post = new Post({ //post 객체를 새로 만들어서 
+                              title: lodashed_title,
+                              content: req.body.postBody,
+                          })
+                          foundUser2.secret.push(post); //Use.secret에 집어넣고 
+                          foundUser2.save();//저장한다.  
+             });
+             
+          }
+      }
+//          if(foundUser){ // 발견한 user의 secret 배열 안을 탐색한다. 
+//              console.log("foundUser: ",foundUser);
+//              let found = foundUser.aggregate([
+//                            {$group: {
+//                                _id:req.user.id
+//                            }}
+////                            {$match:{_id:"req.user.id", title:lodash_transpose}}
+//                        
+//                        ],function(err, result){
+//                  if(err){
+//                      console.log(err);
+//                  }else{
+//                      if(found) console.log("found: ",found);
+//                  }
+//              });
+//
+//              if(found){
+//                  //console.log("found: ", found);
+//                  //found.secret.content.push(req.body.postBody);
+//                  //foundUser.save();
+//              } else{
+//                  const post = new Post({ //post 객체를 새로 만들어서 
+//                              title: lodashed_title,
+//                              content: req.body.postBody,
+//                          })
+//                          foundUser.secret.push(post); //Use.secret에 집어넣고 
+//                          foundUser.save();//저장한다. 
+//              }
+//          }
+//      }
+        
+        
+//                  foundUser.findOne({title:"sdfsdf"}, function(err, foundPost){
+//                  if(err){
+//                      console.log(err);
+//                  } else{ 
+//                      if(foundPost){ //user 안에 이미 해당 title이 있을 때 
+//                          console.log("foundPost: ", foundPost);
+//                          foundPost.content.push(req.body.postBody);
+//                          foundPost.save();
+//                      } else{ //user안에 없는 title일때 
+//                          const post = new Post({ //post 객체를 새로 만들어서 
+//                              title: lodashed_title,
+//                              content: req.body.postBody,
+//                          })
+//                          foundUser.secret.push(post); //Use.secret에 집어넣고 
+//                          foundUser.save();//저장한다. 
+//                      }
+//                     
+//                  }
+//              });
+//              foundUser.save(function(){
+//                      res.redirect("/about");
+            
+              res.redirect("/about");
+              
+          
+      
+   });
+  
 });
 
 //app.get("/posts/:postName", function(req, res){
@@ -451,7 +557,14 @@ var lodash_transpose = function(element){
     element =_.capitalize(element);
     return element;
 }
-
+//find element in array
+var find_title = function(input_array,key){
+  let i = 0; 
+  for(i = 0; i <input_array.length; ++i){
+    if(input_array[i].title===key) break;
+  }
+  return i;
+}
 //routes for masthead
 app.post("/masthead",function(req,res){
     let email = req.body.email;
