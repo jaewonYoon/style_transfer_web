@@ -51,10 +51,9 @@ app.use(passport.initialize());
 app.use( passport.session());
 
 ///mongoose network connect///
-mongoose.connect("mongodb://localhost:27017/blogDB",{useNewUrlParser: true});
+//mongoose.connect("mongodb://localhost:27017/blogDB",{useNewUrlParser: true});
+mongoose.connect("mongodb+srv://admin-jaewon:test123@cluster0-ehw4p.mongodb.net/blogDB",{useNewUrlParser: true});
 mongoose.set("useCreateIndex", true);
-
-//mongoose.connect("mongodb+srv://admin-jaewon:test123@cluster0-ehw4p.mongodb.net/blogDB",{useNewUrlParser: true});
 
 //database variable// 
 const postSchema = {
@@ -397,7 +396,8 @@ app.get("/posts/:customListName",function(req,res){
         if(err){
             console.log(err);
         }else{
-              const index = find_title(foundUser.secret,customListName);
+              console.log("foundUser in posts: ",foundUser); 
+              let index = find_title(foundUser.secret,customListName);
               console.log("foundUser.secret.content: ",foundUser);
               res.render("post",
                         {
