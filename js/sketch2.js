@@ -40,7 +40,7 @@ function setup() {
     //noCanvas();
     
   //new 
-  createCanvas(480, 480).parent('canvasContainer');
+  createCanvas(800, 800).parent('canvasContainer');
 
   video = createCapture(VIDEO);
   video.hide();
@@ -82,9 +82,9 @@ function transferImages() {
 function draw(){
   // Switch between showing the raw camera or the style
   if (isTransferring) {
-    image(resultImg, 0, 0, 320, 240);
+    image(resultImg, 0, 0, 800, 800);
   } else {
-    image(video, 0, 0, 320, 240);
+    image(video, 0, 0, 800, 800);
   }
 }
 
