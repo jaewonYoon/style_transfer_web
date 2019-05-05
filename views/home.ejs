@@ -72,7 +72,11 @@
         </div>
     </section>
     <!-- Transfer section *Input* -->
-
+    
+    <!-- 
+    
+    
+--> 
     <section class="bg-light">
         <div class="tab-pane fade show active" id="stylize" role="tabpanel" aria-labelledby="stylize-tab">
             <div class="container">
@@ -81,7 +85,7 @@
                         <img id="content-img" class="centered model-img" src="" height="350" width="350" />
                         <br>
                         <br>
-                        <select id="content-select" class="centered custom-select">
+                        <select id="content_select" onChange="capture(this)" class="centered custom-select">
                 <option value="" disabled>Select content</option>
                 <option value="pic">Take a picture</option>
                 <option value="file">Select from file</option>
@@ -92,6 +96,13 @@
                 <option value="chicago" >chicago</option>
                 <option value="statue_of_liberty">statue_of_liberty</option>
               </select>
+              <div >  
+            <video id="player" width="400" height ="400" controls autoplay></video>
+            <button id="capture">Capture</button>
+            <button id="transferCapture" class="transferBtnCapture ">transferCapture</button>
+            </div>
+            
+            
                     </div>
                     <div class="col mx-5 my-4">
                         <img id="style-img" class="centered model-img" crossorigin="anonymous" src="../img/styles/wave.jpg" height="350" width="350">
@@ -112,21 +123,51 @@
                         <option value="udnie" selected>udnie</option>
                         <option value="wave">wave</option>
               </select>
-
+              <div>            
+              <canvas style="margin-top:3rem" id="snapshot" width="400" height="350"/>
+                  
+                </div>
                     </div>
                 </div>
+                <script>
+             function capture(content_select){
+              var selectedText = content_select.options[content_select.selectedIndex].innerHTML;
+              if(selectedText==="Take a picture"){
+              var player = document.getElementById('player');
+              var snapshotCanvas = document.getElementById('snapshot');
+              var captureButton = document.getElementById('capture');
 
+              var handleSuccess = function(stream) {
+                // Attach the video stream to the video element and autoplay.
+                player.srcObject = stream;
+              };
+
+              captureButton.addEventListener('click', function() {
+                var context = snapshot.getContext('2d');
+                // Draw the video frame to the canvas.
+                context.drawImage(player, 0, 0, snapshotCanvas.width,
+                    snapshotCanvas.height);
+              });
+
+              navigator.mediaDevices.getUserMedia({video: true})
+                  .then(handleSuccess);
+                  }
+            }
+            </script>
                 <div class="row my-4" style="padding: 0 30rem;" ); ">
                     
                         <button class="transferBtn "><span>Challenge tranfer</span></button>
                     <div class="col-md-5 offset-md-3 ">
+                    
                     </div>
                 </div>
             </div>
         </div>
         <div>
         </div>
+
     </section>
+
     <!-- Transfer section *Output* -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css " rel="stylesheet " />
     <section class="bg-light ">
@@ -165,7 +206,7 @@
     </section>
     
     <!-- Press -->
-    <section id="press " class="bg-light ">
+    <section id="press " style="text-align:center" class="bg-light ">
         <img class="press-logo " src="../img/divercity.png " alt="tc-logo " style="width:20%; ">
         <img class="press-logo " src="../img/mongodb.png " alt="tc-logo ">
 <!--        <img class="press-logo " src="../img/aijs.png " alt="tnw-logo ">-->
@@ -203,6 +244,7 @@
     <script src="../vendor/jquery/jquery.min.js "></script>
     <script src="../js/index.js "></script>
     <script src="../js/sketch.js "></script>
+    <script src="../js/sketch3.js "></script>
     </body>
 
 </html>

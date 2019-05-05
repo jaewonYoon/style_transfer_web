@@ -51,8 +51,8 @@ app.use(passport.initialize());
 app.use( passport.session());
 
 ///mongoose network connect///
-//mongoose.connect("mongodb://localhost:27017/blogDB",{useNewUrlParser: true});
-mongoose.connect("mongodb+srv://admin-jaewon:test123@cluster0-ehw4p.mongodb.net/blogDB",{useNewUrlParser: true});
+mongoose.connect("mongodb://localhost:27017/blogDB",{useNewUrlParser: true});
+//mongoose.connect("mongodb+srv://admin-jaewon:test123@cluster0-ehw4p.mongodb.net/blogDB",{useNewUrlParser: true});
 mongoose.set("useCreateIndex", true);
 
 //database variable// 
@@ -116,8 +116,10 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL:"http://divercitytransfer.herokuapp.com/auth/google/home",
-//    callbackURL: "http://localhost:3000/auth/google/home",
+    //to use heroku hosting, uncomment next line. 
+//    callbackURL:"http://divercitytransfer.herokuapp.com/auth/google/home",
+    //to use local server, uncomment next line
+    callbackURL: "http://localhost:3000/auth/google/home",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
   },
   //google sends back accessToken allow us to use data related to user. 
